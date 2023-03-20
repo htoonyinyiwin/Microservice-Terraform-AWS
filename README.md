@@ -1,5 +1,8 @@
 # Microservice-Terraform-AWS
-Creating distributed microservice system in AWS with Terraform
+Creating distributed microservice system with Terraform and Ansible on AWS Cloud
+
+Step1: Git Clone Microservice-Terraform-AWS Repo
+Step2: 
 
 [![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
 
