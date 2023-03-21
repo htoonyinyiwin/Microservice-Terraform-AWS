@@ -49,7 +49,8 @@ Security Considerations:
 Future Proof
 ------------
 Will harden the security of infra using ACL, AWS Inspector
-Will integrate Terraform with GitHub Action cI-CD
+
+Will integrate Terraform with GitHub Action CI-CD
 
 
 
