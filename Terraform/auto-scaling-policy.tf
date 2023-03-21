@@ -55,3 +55,12 @@ resource "aws_autoscaling_group" "moleculer_asg" {
   }
 }
 
+# Step 4: Create an Auto Scaling Policy to scale up when high CPU utilization is detected
+resource "aws_autoscaling_policy" "scale_up" {
+  name                   = "scale_up"
+  autoscaling_group_name = aws_autoscaling_group.moleculer_asg.name
+  policy_type            = "SimpleScaling"
+  adjustment_type        = "ChangeInCapacity"
+  scaling_adjustment     = 1
+  cooldown               = 300
+}
