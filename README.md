@@ -2,10 +2,6 @@
 Creating distributed microservice system with Terraform and Ansible on AWS Cloud
 
 
-![image](https://user-images.githubusercontent.com/109453078/226564015-5afddb6d-ccaa-45a5-9b30-98caa901b3cb.png)
-
-
-
 Step1: Git Clone Microservice-Terraform-AWS Repo
 
 Step2: Get inside Microservice-Terraform-AWS/Terraform Folder 
