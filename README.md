@@ -1,6 +1,8 @@
 # Microservice-Terraform-AWS
 Creating distributed microservice system with Terraform and Ansible on AWS Cloud
 
+
+
 Step1: Git Clone Microservice-Terraform-AWS Repo
 
 Step2: Get inside Microservice-Terraform-AWS/Terraform Folder 
@@ -13,7 +15,7 @@ Step3: After Infra is prvisioned by Terraform, 4 instances' Public ip address wi
        Please, update these 4 ip address in the file named nats-address.env inside Microservice-Terraform-AWS/Ansible Folder and save.
 
 Step4: Start executing Ansible Script 
-(command - sudo ansible-playbook)
+(command - ansible-playbook -i inventory2.ini configure_instances.yml --ssh-extra-args='-F ssh.cfg')
 
 Step5: Type the public ip address of API Instance with port 3000 in browser url
        (ip_address:3000/api/greeter/hello) -> it will call service1 then random number of service2 with show in browser
