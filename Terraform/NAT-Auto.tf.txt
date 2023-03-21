@@ -1,0 +1,121 @@
+
+
+# Define two private subnets
+resource "aws_subnet" "private" {
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.0.2.0/24"
+
+  tags = {
+    Name = "Private Subnet 1"
+  }
+}
+
+# Create a route table for the private subnet
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.example.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+
+}
+
+#-------------------------------------------------V2------better
+
+
+resource "aws_vpc" "moleculer_vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_subnet" "public" {
+  vpc_id     = aws_vpc.moleculer_vpc.id
+  cidr_block = "10.0.1.0/24"
+  tags = {
+    Name = "Public Subnet"
+  }
+}
+
+resource "aws_subnet" "private" {
+  vpc_id     = aws_vpc.moleculer_vpc.id
+  cidr_block = "10.0.2.0/24"
+  tags = {
+    Name = "Private Subnet"
+  }
+}
+# Define an Internet Gateway and attach it to the VPC
+resource "aws_internet_gateway" "moleculer_igw" {
+  vpc_id = aws_vpc.moleculer_vpc.id
+  tags = {
+    Name = "Internet Gateway"
+  }
+}
+
+# Define a NAT Gateway in the public subnet to provide internet access for instances launched in private subnets
+resource "aws_eip" "moleculer_eip" {
+  vpc = true
+}
+
+resource "aws_nat_gateway" "moleculer_nat" {
+  allocation_id = aws_eip.moleculer_eip.id
+  subnet_id     = aws_subnet.public.id
+  tags = {
+    Name = "NAT Gateway"
+  }
+}
+
+
+# resource "aws_security_group" "allow_ssh" {
+#   name_prefix = "allow_ssh"
+  
+#   ingress {
+#     from_port   = 22
+#     to_port     = 22
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
+
+resource "aws_launch_configuration" "example_lc" {
+  image_id = "ami-0c94855ba95c71c99"
+  instance_type = "t2.micro"
+  security_groups = [aws_security_group.allow_ssh.id]
+  key_name = local.key_name
+  
+# User data script to install nginx web server
+  user_data = <<-EOF
+              #!/bin/bash
+              yum update -y
+              yum install -y nginx
+              systemctl start nginx
+              EOF    
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_autoscaling_group" "moleculer_asg" {
+  name = "moleculer_asg"
+  launch_configuration = aws_launch_configuration.example_lc.id
+  min_size = 2
+  max_size = 4
+  desired_capacity = 2
+  health_check_grace_period = 300
+  health_check_type = "EC2"
+  
+  tag {
+    key = "Name"
+    value = "example_instance"
+    propagate_at_launch = true
+  }
+  
+  vpc_zone_identifier = [
+    aws_subnet.public.id,
+    aws_subnet.public.id
+  ]
+  
+  lifecycle {
+    create_before_destroy = true
+  }
+}

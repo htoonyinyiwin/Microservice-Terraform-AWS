@@ -2,7 +2,27 @@
 Creating distributed microservice system with Terraform and Ansible on AWS Cloud
 
 Step1: Git Clone Microservice-Terraform-AWS Repo
-Step2: 
+
+Step2: Get inside Microservice-Terraform-AWS/Terraform Folder 
+(command - terraform login, get Token from terraform cloud account, 
+         - terraform init, 
+         - terraform plan, 
+         - terraform apply -auto-approve)
+
+Step3: After Infra is prvisioned by Terraform, 4 instances' Public ip address will be there.
+       Please, update these 4 ip address in the file named nats-address.env inside Microservice-Terraform-AWS/Ansible Folder and save.
+
+Step4: Start executing Ansible Script 
+(command - sudo ansible-playbook)
+
+Step5: Type the public ip address of API Instance with port 3000 in browser url
+       (ip_address:3000/api/greeter/hello) -> it will call service1 then random number of service2 with show in browser
+       (ip_address:3000/api/greeter/welcome?name=brian) -> it will show "Hello Brian"
+
+Security Considerations:
+1.Terraform script include Session Manager to access EC2 instances (to disable ssh port22)
+
+2.Creating a key pair using Terraform is not recommended, as Terraform would store the private key in its state, which might not be secure. It's safer to create the key pair manually using the AWS Management Console or AWS CLI, and then reference the key pair name in your Terraform script.
 
 [![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
 
@@ -24,7 +44,8 @@ In the terminal, try the following commands:
 
 ## Services
 - **api**: API Gateway services
-- **greeter**: Sample service with `hello` and `welcome` actions.
+- **service1**: Sample service with `hello` and `welcome` actions.
+- **service2**: Service which will send random number when service1 is called.
 
 
 ## Useful links
