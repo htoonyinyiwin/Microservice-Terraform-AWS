@@ -2,8 +2,7 @@
 Creating distributed microservice system with Terraform and Ansible on AWS Cloud
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 =======
 ![image](https://user-images.githubusercontent.com/109453078/226564015-5afddb6d-ccaa-45a5-9b30-98caa901b3cb.png)
 
