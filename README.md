@@ -3,34 +3,59 @@ Creating distributed microservice system with Terraform and Ansible on AWS Cloud
 
 
 
-=======
+
 ![image](https://user-images.githubusercontent.com/109453078/226564015-5afddb6d-ccaa-45a5-9b30-98caa901b3cb.png)
 
 
 
 
 Step1: Git Clone Microservice-Terraform-AWS Repo
+-----
 
 Step2: Get inside Microservice-Terraform-AWS/Terraform Folder 
+-----
 (command - terraform login, get Token from terraform cloud account, 
          - terraform init, 
          - terraform plan, 
          - terraform apply -auto-approve)
 
+
 Step3: After Infra is prvisioned by Terraform, 4 instances' Public ip address will be there.
+-----
        Please, update these 4 ip address in the file named nats-address.env inside Microservice-Terraform-AWS/Ansible Folder and save.
 
+
 Step4: Start executing Ansible Script 
+-----
 (command - ansible-playbook -i inventory2.ini configure_instances.yml --ssh-extra-args='-F ssh.cfg')
 
+
 Step5: Type the public ip address of API Instance with port 3000 in browser url
-       (ip_address:3000/api/greeter/hello) -> it will call service1 then random number of service2 with show in browser
+-----
+       (ip_address:3000/api/greeter/hello) -> it will call service1 then random number(refresh the browser) of service2 with show in browser
        (ip_address:3000/api/greeter/welcome?name=brian) -> it will show "Hello Brian"
 
+
 Security Considerations:
+-----------------------
 1.Terraform script include Session Manager to access EC2 instances (to disable ssh port22)
 
-2.Creating a key pair using Terraform is not recommended, as Terraform would store the private key in its state, which might not be secure. It's safer to create the key pair manually using the AWS Management Console or AWS CLI, and then reference the key pair name in your Terraform script.
+2.Creating a key pair using Terraform is not recommended, as Terraform would store the private key in its state, which might not be secure. It's safer to create the key pair manually using the AWS Management Console or AWS CLI, and then reference the key pair name in the Terraform script.
+
+3.Used Public ipaddress associated to all 4 instances and with allow_all traffic Security Groups to test the microservice first, then upgrade the infra with security best practices, creating public subnet for bastion host, connect with ssh to private subnet for configuration to 4 instances, and also using NAT gateway for private instances for internet access.
+
+4.Used Session Manager of System Manager to access all 4 instances and bastion host to later disable the ssh port as well.
+
+Future Proof
+------------
+Will harden the security of infra using ACL, AWS Inspector
+Will integrate Terraform with GitHub Action cI-CD
+
+
+
+
+
+
 
 [![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
 
