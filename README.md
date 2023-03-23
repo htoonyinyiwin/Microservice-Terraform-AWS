@@ -20,7 +20,7 @@ Step2: Get inside Microservice-Terraform-AWS/Terraform Folder
          - terraform apply -auto-approve)
 
 
-Step3: After Infra is prvisioned by Terraform, 4 instances' private ip address and bastion host public ip address will be there.
+Step3: After Infra is provisioned by Terraform, 4 instances' private ip address and bastion host public ip address will be there.
 -----
        Please, update these 4 ip address and public ip address in the file named inventory.ini then copy private ip address of [NATS] and paste in nats-address.env inside Microservice-Terraform-AWS/Ansible Folder and save. such as below
 
