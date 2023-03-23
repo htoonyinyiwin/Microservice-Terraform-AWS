@@ -55,7 +55,7 @@ TRANSPORTER=nats://10.0.2.182:4222
 
 Step4: Start executing Ansible Script 
 -----
-(command - ansible-playbook -i inventory2.ini configure_instances.yml --ssh-extra-args='-F ssh.cfg')
+(command - ansible-playbook -i inventory2.ini configure_ec2.yml --ssh-extra-args='-F ssh.cfg')
 
 
 Step5: Type the public ip address of Bastion Instance with port 80 in browser url (which will forward the port 3000 of API instance)
