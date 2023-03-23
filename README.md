@@ -14,6 +14,9 @@ Step1: Git Clone Microservice-Terraform-AWS Repo
 
 Step2: Get inside Microservice-Terraform-AWS/Terraform Folder 
 -----
+
+Before execute, please update "ami" and "key.pem" variable of AWS account owner's environment,
+
 (command - terraform login, get Token from terraform cloud account, 
          - terraform init, 
          - terraform plan, 
@@ -55,7 +58,9 @@ TRANSPORTER=nats://10.0.2.182:4222
 
 Step4: Start executing Ansible Script 
 -----
-(command - ansible-playbook -i inventory2.ini configure_ec2.yml --ssh-extra-args='-F ssh.cfg')
+command - eval "$(ssh-agent -s)"
+command - ssh-add /path/key.pem
+command - ansible-playbook -i inventory_sshagent.ini configure_ec2.yml --ssh-extra-args='-F ssh.cfg')
 
 
 Step5: Type the public ip address of Bastion Instance with port 80 in browser url (which will forward the port 3000 of API instance)
