@@ -25,6 +25,7 @@ Step3: After Infra is prvisioned by Terraform, 4 instances' private ip address a
        Please, update these 4 ip address and public ip address in the file named inventory.ini then copy private ip address of [NATS] and paste in nats-address.env inside Microservice-Terraform-AWS/Ansible Folder and save. such as below
 
 inventory.ini file-------------------------------------------------
+
 [NATS]
 instance1 ansible_host=10.0.2.182 ansible_user=ec2-user
 
