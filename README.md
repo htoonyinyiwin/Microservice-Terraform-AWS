@@ -58,7 +58,7 @@ Step4: Start executing Ansible Script
 (command - ansible-playbook -i inventory2.ini configure_instances.yml --ssh-extra-args='-F ssh.cfg')
 
 
-Step5: Type the public ip address of API Instance with port 3000 in browser url
+Step5: Type the public ip address of Bastion Instance with port 80 in browser url (which will forward the port 3000 of API instance)
 -----
        (ip_address:3000/api/greeter/hello) -> it will call service1 then random number(refresh the browser) of service2 with show in browser
        (ip_address:3000/api/greeter/welcome?name=brian) -> it will show "Hello Brian"
