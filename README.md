@@ -27,6 +27,8 @@ Step3: After Infra is provisioned by Terraform, 4 instances' private ip address 
 -----
        Please, update these 4 ip address and public ip address in the file named inventory.ini then copy private ip address of [NATS] and paste in nats-address.env inside Microservice-Terraform-AWS/Ansible Folder and save. such as below
 
+Step A:
+
 inventory.ini file-------------------------------------------------
 
 [NATS]
@@ -44,6 +46,8 @@ instance4 ansible_host=10.0.2.185 ansible_user=ec2-user
 [bastion]
 bastion-host ansible_host=52.221.224.37 ansible_user=ec2-user
 
+Step B: pick ip address of [NATS] and update below file
+
 nats-address.env file----------------------------------------------
 
 NAMESPACE=
@@ -54,6 +58,24 @@ SERVICEDIR=services
 TRANSPORTER=nats://10.0.2.182:4222
 
 ------------------------------------------------------------------------
+
+Step C: pick [API] private ip address into configure-ec2.yml
+
+- name: Create Nginx reverse proxy configuration for API
+      ansible.builtin.copy:
+        content: |
+          server {
+              listen 80;
+              server_name _;
+
+              location / {
+                  proxy_pass http://10.0.2.185:3000;            <<<<<<<<<<<-------------------<<<<<<<--------------------------<<<<<<
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+              }
+          }
 
 
 Step4: Start executing Ansible Script 
